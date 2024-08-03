@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  db:
+    image: public.ecr.aws/docker/library/postgres:16.3
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=dbs
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+
+  web:
+    build:
+      context: ./
+      dockerfile: ./docker/web/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+
