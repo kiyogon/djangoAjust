@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Planner</title>
+</head>
+<body>
+    <h1>Events</h1>
+    <ul>
+        {% for event in events %}
+            <li><a href="{% url 'event_detail' event.slug %}">{{ event.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_event' %}">Create New Event</a>
+</body>
+</html>

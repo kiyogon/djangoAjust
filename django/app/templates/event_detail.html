@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.name }}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f1f1f1;
+        }
+
+        .highlight {
+            background-color: #d4edda;
+        }
+
+        .date-header {
+            background-color: #e2f0ff;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body class="container">
+    <h1 class="mt-4">{{ event.name }}</h1>
+
+    <h2 class="mt-4">Update Availability</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="scroll-container">
+            <table>
+                <thead>
+                    <tr>
+                        {% for event_date, form in availability_forms %}
+                        <th>{{ event_date.date }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for event_date, form in availability_forms %}
+                        <td>{{ form.as_p }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+
+    <h2 class="mt-4">Availability Results</h2>
+    <div class="scroll-container">
+        <table>
+            <thead>
+                <tr>
+                    {% for date, result in availability_results.items %}
+                    <th class="date-header">
+                        {{ date.date }}<br>
+                        ◯：{{ result.available_count }} △：{{ result.maybe_count }} ✕：{{ result.unavailable_count }}
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for participant in participants %}
+                <tr>
+                    {% for date, result in availability_results.items %}
+                    <td class="{% if result.available_count == max_available_count %}highlight{% endif %}">
+                        {% for availability in result.availabilities %}
+                        {% if availability.name == participant %}
+                        {{ availability.get_choice_display }}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

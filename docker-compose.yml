@@ -14,7 +14,8 @@ services:
     build:
       context: ./
       dockerfile: ./docker/web/Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
+    tty: true
+    #command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     env_file:
