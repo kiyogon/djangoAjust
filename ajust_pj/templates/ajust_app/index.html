@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベント作成</title>
+</head>
+
+<body>
+    <h1>イベント作成</h1>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ event_form.as_p }}
+        <h2>候補日（最大5個）</h2>
+        {{ date_formset.management_form }}
+        {% for form in date_formset %}
+        {{ form.as_p }}
+        {% endfor %}
+        <button type="submit">イベントを作成</button>
+    </form>
+</body>
+
+</html>

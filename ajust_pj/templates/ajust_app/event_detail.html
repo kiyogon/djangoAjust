@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.name }} - 詳細</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ event.name }}</h1>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <h2>参加状況</h2>
+    <table>
+        <tr>
+            <th>参加者</th>
+            {% for date in event_dates %}
+            <th>{{ date.date|date:"Y/m/d" }}</th>
+            {% endfor %}
+        </tr>
+        {% for item in formatted_data %}
+        <tr>
+            <td>{{ item.name }}</td>
+            {% for availability in item.availabilities %}
+            <td>{{ availability }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>参加登録</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">名前：</label>
+        <input type="text" id="name" name="name" required>
+        <table>
+            <tr>
+                <th>日付</th>
+                <th>参加可否</th>
+            </tr>
+            {% for date in event_dates %}
+            <tr>
+                <td>{{ date.date|date:"Y/m/d" }}</td>
+                <td>
+                    <select name="availability_{{ date.id }}" required>
+                        <option value="O">◯</option>
+                        <option value="D">△</option>
+                        <option value="X">✕</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">参加登録</button>
+    </form>
+</body>
+
+</html>
