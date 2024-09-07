@@ -1,2 +1,0 @@
-# djangoAjustment
-djangoArrangement
