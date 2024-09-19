@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Event</title>
+</head>
+<body>
+    <h1>Create New Event</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ event_form.as_p }}
+        <h2>Choose Dates (up to 5)</h2>
+        {{ date_formset.management_form }}
+        {% for form in date_formset %}
+            {{ form.as_p }}
+        {% endfor %}
+        <button type="submit">Create Event</button>
+    </form>
+</body>
+</html>
