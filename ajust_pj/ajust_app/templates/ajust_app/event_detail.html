@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ event.name }} - Details</title>
+</head>
+<body>
+    <h1>{{ event.name }}</h1>
+    <h2>Participants and Responses</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            {% for date in dates %}
+                <th>{{ date.date|date:"Y-m-d" }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in response_matrix %}
+            <tr>
+                <td>{{ row.participant.name }}</td>
+                {% for response in row.responses %}
+                    <td>{{ response }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Add Your Response</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ participant_form.as_p }}
+        {% for date in dates %}
+            <p>
+                {{ date.date|date:"Y-m-d" }}:
+                <select name="date_{{ date.id }}">
+                    <option value="">-</option>
+                    <option value="yes">◯</option>
+                    <option value="maybe">△</option>
+                    <option value="no">✕</option>
+                </select>
+            </p>
+        {% endfor %}
+        <button type="submit">Submit Response</button>
+    </form>
+</body>
+</html>
