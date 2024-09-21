@@ -1,0 +1,57 @@
+<!-- ajust_app/templates/ajust_app/event_detail.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ event.name }}</h1>
+
+<h2>日程候補</h2>
+<ul>
+    {% for date in dates %}
+        <li>{{ date.date }}</li>
+    {% endfor %}
+</ul>
+
+<h2>参加者一覧</h2>
+<table>
+    <tr>
+        <th>名前</th>
+        {% for date in dates %}
+            <th>{{ date.date }}</th>
+        {% endfor %}
+    </tr>
+    {% for participant in participant_responses %}
+        <tr>
+            <td>{{ participant.name }}</td>
+            {% for response in participant.responses %}
+                <td>{{ response }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+<h2>日程別集計</h2>
+<table>
+    <tr>
+        <th>日付</th>
+        <th>◯</th>
+        <th>△</th>
+        <th>✕</th>
+    </tr>
+    {% for summary in date_summary %}
+        <tr>
+            <td>{{ summary.date }}</td>
+            <td>{{ summary.yes }}</td>
+            <td>{{ summary.maybe }}</td>
+            <td>{{ summary.no }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h2>新しい参加者を追加</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ participant_form.as_p }}
+    <button type="submit">参加者を追加</button>
+</form>
+{% endblock %}

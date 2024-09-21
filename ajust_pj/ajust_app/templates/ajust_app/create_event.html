@@ -1,0 +1,17 @@
+<!-- ajust_app/templates/ajust_app/create_event.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>新しいイベントを作成</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ event_form.as_p }}
+    <h2>候補日</h2>
+    {{ date_formset.management_form }}
+    {% for form in date_formset %}
+        {{ form.as_p }}
+    {% endfor %}
+    <button type="submit">イベントを作成</button>
+</form>
+{% endblock %}

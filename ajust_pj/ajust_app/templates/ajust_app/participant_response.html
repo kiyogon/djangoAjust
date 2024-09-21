@@ -1,0 +1,30 @@
+<!-- ajust_app/templates/ajust_app/participant_response.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ event.name }} - {{ participant.name }}の回答</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table>
+        <tr>
+            <th>日付</th>
+            <th>参加可否</th>
+        </tr>
+        {% for form in formset %}
+            <tr>
+                <td>{{ form.instance.date.date }}</td>
+                <td>
+                    {% for radio in form.availability %}
+                        {{ radio.tag }}
+                        <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <button type="submit">回答を送信</button>
+</form>
+{% endblock %}
