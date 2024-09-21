@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+</head>
+<body>
+    <h1>Create a New Event</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ event_form.as_p }}
+        <h2>Date Options</h2>
+        {{ date_formset.management_form }}
+        {% for form in date_formset %}
+            {{ form.as_p }}
+        {% endfor %}
+        <button type="submit">Create Event</button>
+    </form>
+</body>
+</html>
