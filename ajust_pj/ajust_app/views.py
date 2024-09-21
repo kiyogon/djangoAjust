@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import formset_factory
 from .models import Event, Date, Participant, Response
 from .forms import EventForm, DateFormSet, ParticipantForm, ResponseFormSet
+from django.contrib import messages
 
 def create_event(request):
     if request.method == 'POST':
@@ -79,7 +80,10 @@ def participant_response(request, event_id, participant_id):
         formset = ResponseFormSet(request.POST, instance=participant)
         if formset.is_valid():
             formset.save()
+            messages.success(request, '回答が正常に保存されました。')
             return redirect('event_detail', event_id=event.id)
+        else:
+            messages.error(request, 'エラーが発生しました。入力を確認してください。')
     else:
         formset = ResponseFormSet(instance=participant)
     

@@ -5,7 +5,15 @@
 {% block content %}
 <h1>{{ event.name }} - {{ participant.name }}の回答</h1>
 
-<form method="post">
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<form method="post" action="{% url 'participant_response' event.id participant.id %}">
     {% csrf_token %}
     {{ formset.management_form }}
     <table>
@@ -14,6 +22,7 @@
             <th>参加可否</th>
         </tr>
         {% for form in formset %}
+            {{ form.id }}
             <tr>
                 <td>{{ form.instance.date.date }}</td>
                 <td>
@@ -27,4 +36,5 @@
     </table>
     <button type="submit">回答を送信</button>
 </form>
+<a href="{% url 'event_detail' event.id %}">イベント詳細に戻る</a>
 {% endblock %}
