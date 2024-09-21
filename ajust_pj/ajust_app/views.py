@@ -45,6 +45,7 @@ def event_detail(request, event_id):
         responses = {response.date: response.get_availability_display() for response in participant.responses.all()}
         participant_responses.append({
             'name': participant.name,
+            'id': participant.id,
             'responses': [responses.get(date, '') for date in dates]
         })
 

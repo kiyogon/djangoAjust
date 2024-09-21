@@ -19,6 +19,7 @@
         {% for date in dates %}
             <th>{{ date.date }}</th>
         {% endfor %}
+        <th>アクション</th>
     </tr>
     {% for participant in participant_responses %}
         <tr>
@@ -26,6 +27,9 @@
             {% for response in participant.responses %}
                 <td>{{ response }}</td>
             {% endfor %}
+            <td>
+                <a href="{% url 'participant_response' event.id participant.id %}">回答を編集</a>
+            </td>
         </tr>
     {% endfor %}
 </table>
