@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>新しいイベントを作成</h1>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="{{ form.title.id_for_label }}">イベントタイトル:</label>
+        {{ form.title }}
+    </div>
+    <div>
+        <label for="{{ form.dates.id_for_label }}">候補日 1 (必須):</label>
+        {{ form.dates }}
+    </div>
+    {% for i in "2345" %}
+    <div>
+        <label for="{{ form.date_options.id_for_label }}">候補日 {{ i }} (任意):</label>
+        {{ form.date_options }}
+    </div>
+    {% endfor %}
+    {% if form.errors %}
+        <div class="error">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+    <button type="submit">イベントを作成</button>
+</form>
+{% endblock %}
