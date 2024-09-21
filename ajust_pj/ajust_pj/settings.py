@@ -20,12 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a&ce-g9vdz8p%8s9yf6@7wgqs=&r^tpvwnrli%bc1&b_(t2*ei'
+# SECRET_KEY = 'django-insecure-a&ce-g9vdz8p%8s9yf6@7wgqs=&r^tpvwnrli%bc1&b_(t2*ei'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -68,22 +69,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ajust_pj.wsgi.application'
 
-# Database
+# データベース設定
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'dbs',
+#         'USER': 'user',
+#         'PASSWORD': 'password',
+#         'HOST': 'db',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbs',
-        'USER': 'user',
-        'PASSWORD': 'password',
-        'HOST': 'db',
-        'PORT': '5432',
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': os.environ.get('DB_NAME'),
+    'USER': os.environ.get('DB_USER'),
+    'PASSWORD': os.environ.get('DB_PASSWORD'),
+    'HOST': os.environ.get('DB_HOST'),
+    'PORT': os.environ.get('DB_PORT'),
     }
 }
 
@@ -121,3 +131,9 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('DEBUG') == 'True'
