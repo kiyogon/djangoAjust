@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ event.title }}</h1>
+
+<h2>参加状況</h2>
+<table>
+    <tr>
+        <th>日付</th>
+        <th>○</th>
+        <th>✕</th>
+        <th>△</th>
+    </tr>
+    {% for data in participation_data %}
+    <tr>
+        <td>{{ data.date|date:"Y/m/d" }}</td>
+        <td>{{ data.yes_count }}</td>
+        <td>{{ data.no_count }}</td>
+        <td>{{ data.maybe_count }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>参加者リスト</h2>
+<ul>
+{% for participant in participants %}
+    <li>{{ participant.name }}</li>
+{% endfor %}
+</ul>
+
+<h2>参加可否を入力</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% for date_option in date_options %}
+    <div>
+        <label>{{ date_option.date|date:"Y/m/d" }}</label>
+        <select name="availability_{{ date_option.id }}">
+            <option value="">選択してください</option>
+            <option value="Y">○</option>
+            <option value="N">✕</option>
+            <option value="M">△</option>
+        </select>
+    </div>
+    {% endfor %}
+    <button type="submit">回答を送信</button>
+</form>
+{% endblock %}
