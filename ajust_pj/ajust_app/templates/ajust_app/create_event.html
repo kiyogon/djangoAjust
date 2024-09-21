@@ -1,0 +1,25 @@
+<!-- ajust_app/templates/ajust_app/create_event.html -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create a New Event</title>
+  </head>
+  <body>
+    <h1>Create a New Event</h1>
+    <form method="post">
+      {% csrf_token %}
+      <h2>Event Details</h2>
+      {{ event_form.as_p }}
+
+      <h2>Date Options</h2>
+      {{ date_formset.management_form }} {% for form in date_formset %}
+      <div class="date-form">{{ form.as_p }}</div>
+      {% endfor %}
+
+      <button type="submit">Create Event</button>
+    </form>
+  </body>
+</html>
